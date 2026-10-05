@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discrepancy Viewer</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>System Discrepancies Report</h2>
+
+    <form method="GET" action="/">
+        <label for="reason">Filter by Reason:</label>
+        <select name="reason" id="reason" onchange="this.form.submit()">
+            <option value="">All Reasons</option>
+            <option value="MISSING_IN_SYSTEM_B" {% if selected_reason == 'MISSING_IN_SYSTEM_B' %}selected{% endif %}>MISSING_IN_SYSTEM_B</option>
+            <option value="ORPHAN_ENTRY_IN_SYSTEM_B" {% if selected_reason == 'ORPHAN_ENTRY_IN_SYSTEM_B' %}selected{% endif %}>ORPHAN_ENTRY_IN_SYSTEM_B</option>
+            <option value="DUPLICATE_IN_SYSTEM_B" {% if selected_reason == 'DUPLICATE_IN_SYSTEM_B' %}selected{% endif %}>DUPLICATE_IN_SYSTEM_B</option>
+            <option value="VALUE_MISMATCH" {% if selected_reason == 'VALUE_MISMATCH' %}selected{% endif %}>VALUE_MISMATCH</option>
+        </select>
+    </form>
+    <br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Record ID / Ref</th>
+                <th>Discrepancy Reason</th>
+                <th>System A Value</th>
+                <th>System B Value</th>
+                <th>Location ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in discrepancies %}
+            <tr>
+                <td>{{ d.record_id }}</td>
+                <td>{{ d.reason }}</td>
+                <td>{{ d.val_a }}</td>
+                <td>{{ d.val_b }}</td>
+                <td>{{ d.location_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
